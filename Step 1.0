@@ -1,0 +1,42 @@
+def create_step_schedule():
+    # Collect user inputs
+    min_steps = int(input("Enter the minimum number of steps you want to achieve today: "))
+    ideal_steps = int(input("Enter the ideal number of steps you want to achieve today: "))
+    current_time = int(float(input("What time of day is it now? (Enter in 24-hour format, e.g., 13 for 1:00 PM): ")))
+    steps_done = int(input("How many steps have you done so far? "))
+    end_time = int(float(input("By what time do you want to finish your steps? (Enter in 24-hour format, e.g., 20 for 8:00 PM): ")))
+
+    # Calculate remaining time and steps needed
+    remaining_time = end_time - current_time
+    if remaining_time <= 0:
+        print("The end time must be later than the current time.")
+        return
+
+    remaining_min_steps = max(min_steps - steps_done, 0)
+    remaining_ideal_steps = max(ideal_steps - steps_done, 0)
+
+    # Calculate step increments based on remaining time
+    num_intervals = remaining_time
+    min_step_increment = remaining_min_steps // num_intervals
+    ideal_step_increment = remaining_ideal_steps // num_intervals
+
+    # Generate schedules for minimum steps
+    print("\nMinimum Steps Schedule:")
+    next_time = current_time
+    cumulative_min_steps = steps_done
+    for i in range(num_intervals):
+        next_time += 1  # Hourly increments
+        cumulative_min_steps += min_step_increment
+        print(f"{next_time:02d}:00 - Take {min_step_increment} steps (Cumulative: {cumulative_min_steps} steps)")
+
+    # Generate schedules for ideal steps
+    print("\nIdeal Steps Schedule:")
+    next_time = current_time
+    cumulative_ideal_steps = steps_done
+    for i in range(num_intervals):
+        next_time += 1  # Hourly increments
+        cumulative_ideal_steps += ideal_step_increment
+        print(f"{next_time:02d}:00 - Take {ideal_step_increment} steps (Cumulative: {cumulative_ideal_steps} steps)")
+
+if __name__ == "__main__":
+    create_step_schedule()
